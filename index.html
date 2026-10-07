@@ -282,6 +282,23 @@
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
       text-align: left;
+      animation: floatIn 0.8s ease-out backwards;
+    }
+
+    .note:nth-child(1) { animation-delay: 0.1s; }
+    .note:nth-child(2) { animation-delay: 0.2s; }
+    .note:nth-child(3) { animation-delay: 0.3s; }
+    .note:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .note b {
@@ -375,24 +392,190 @@
       margin-top: 12px;
       position: relative;
       z-index: 1;
+      transition: color 0.3s ease;
     }
 
-    .floating-badge {
-      display: inline-flex;
-      align-items: center;
+    /* Lightbox Styles */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 100;
       justify-content: center;
-      min-width: 130px;
-      padding: 10px 16px;
-      margin-top: 18px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #f8dfe9;
-      font-size: 14px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      align-items: center;
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .lightbox-content {
       position: relative;
-      z-index: 1;
+      max-width: 90vw;
+      max-height: 90vh;
+      animation: slideIn 0.4s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.85);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 15px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.8);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 32px;
+      cursor: pointer;
+      z-index: 101;
+      transition: transform 0.3s ease;
+    }
+
+    .lightbox-close:hover {
+      transform: scale(1.2);
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background 0.3s ease;
+      z-index: 101;
+    }
+
+    .lightbox-nav:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+
+    .lightbox-counter {
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    /* Floating Text Animations */
+    .floating-text {
+      position: fixed;
+      font-size: 20px;
+      font-weight: 300;
+      pointer-events: none;
+      z-index: 20;
+      animation: floatAway 4s ease-in forwards;
+      letter-spacing: 1px;
+    }
+
+    @keyframes floatAway {
+      0% {
+        opacity: 1;
+        transform: translateY(0) translateX(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-80px) translateX(var(--float-x, 0px));
+      }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      z-index: 35;
+      pointer-events: none;
+      animation: confettiFall 3s linear forwards;
+      user-select: none;
+    }
+
+    @keyframes confettiFall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* Floating Emojis */
+    .floating-emoji {
+      position: fixed;
+      font-size: 40px;
+      animation: emojiFloat 3s ease-in-out forwards;
+      pointer-events: none;
+      z-index: 25;
+      filter: drop-shadow(0 0 10px rgba(255, 110, 170, 0.4));
+    }
+
+    @keyframes emojiFloat {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-150px) scale(0.3);
+      }
+    }
+
+    /* Music Visualizer */
+    .music-bars {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      align-items: flex-end;
+      height: 24px;
+      margin-top: 8px;
+    }
+
+    .music-bar {
+      width: 4px;
+      background: linear-gradient(180deg, #ff5c9e, #8e6bff);
+      border-radius: 2px;
+      animation: musicBeat 0.6s ease-in-out infinite;
+    }
+
+    .music-bar:nth-child(1) { animation-delay: 0s; }
+    .music-bar:nth-child(2) { animation-delay: 0.1s; }
+    .music-bar:nth-child(3) { animation-delay: 0.2s; }
+    .music-bar:nth-child(4) { animation-delay: 0.1s; }
+    .music-bar:nth-child(5) { animation-delay: 0s; }
+
+    @keyframes musicBeat {
+      0%, 100% { height: 4px; }
+      50% { height: 20px; }
     }
 
     @media (max-width: 720px) {
@@ -400,12 +583,26 @@
       .photo { height: 390px; }
       .card { padding: 34px 18px; }
       #typed { font-size: 18px; }
+      .lightbox-nav { font-size: 18px; padding: 10px 15px; }
     }
   </style>
 </head>
 <body>
   <canvas id="stars"></canvas>
   <div class="aurora"></div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+      <img class="lightbox-img" id="lightboxImg" src="" alt="Full size photo">
+      <button class="lightbox-nav lightbox-prev" onclick="prevPhoto()">❮</button>
+      <button class="lightbox-nav lightbox-next" onclick="nextPhoto()">❯</button>
+      <div class="lightbox-counter">
+        <span id="currentPhoto">1</span> / <span id="totalPhotos">9</span>
+      </div>
+    </div>
+  </div>
 
   <section class="page" id="countPage">
     <div class="card">
@@ -443,9 +640,16 @@
         <p>I didn't want to give you just a present.<br>I wanted to make you something you could keep.</p>
         <div style="margin-top: 10px;">
           <button class="btn" onclick="go('letter')">Read my letter 💌</button>
-          <button class="btn" onclick="toggleMusic()">♪ Play a little music</button>
+          <button class="btn" onclick="toggleMusic()">♪ Play music</button>
         </div>
         <div id="musicState">Music is off</div>
+        <div class="music-bars hidden" id="musicBars">
+          <div class="music-bar"></div>
+          <div class="music-bar"></div>
+          <div class="music-bar"></div>
+          <div class="music-bar"></div>
+          <div class="music-bar"></div>
+        </div>
       </div>
     </section>
 
@@ -462,16 +666,17 @@
       <div class="card">
         <div class="kicker">Your little photo story</div>
         <h2>Every picture has a version of you. ✨</h2>
+        <p class="small" style="margin-bottom: 15px;">Click any photo to see it in full screen</p>
         <div class="photoGrid">
-          <img class="photo" src="aradhya1.png" alt="Aradhya">
-          <img class="photo" src="aradhya2.png" alt="Aradhya">
-          <img class="photo" src="aradhya3.png" alt="Aradhya">
-          <img class="photo" src="aradhya4.png" alt="Aradhya">
-          <img class="photo" src="aradhya5.png" alt="Aradhya">
-          <img class="photo" src="aradhya6.png" alt="Aradhya">
-          <img class="photo" src="aradhya7.png" alt="Aradhya">
-          <img class="photo" src="aradhya8.png" alt="Aradhya">
-          <img class="photo" src="aradhya9.png" alt="Aradhya">
+          <img class="photo" src="aradhya1.png" alt="Aradhya" onclick="openLightbox(0)">
+          <img class="photo" src="aradhya2.png" alt="Aradhya" onclick="openLightbox(1)">
+          <img class="photo" src="aradhya3.png" alt="Aradhya" onclick="openLightbox(2)">
+          <img class="photo" src="aradhya4.png" alt="Aradhya" onclick="openLightbox(3)">
+          <img class="photo" src="aradhya5.png" alt="Aradhya" onclick="openLightbox(4)">
+          <img class="photo" src="aradhya6.png" alt="Aradhya" onclick="openLightbox(5)">
+          <img class="photo" src="aradhya7.png" alt="Aradhya" onclick="openLightbox(6)">
+          <img class="photo" src="aradhya8.png" alt="Aradhya" onclick="openLightbox(7)">
+          <img class="photo" src="aradhya9.png" alt="Aradhya" onclick="openLightbox(8)">
         </div>
         <p class="caption">Different days. Different smiles. Still you. ❤️</p>
       </div>
@@ -520,7 +725,7 @@
         <div class="kicker">The final scene</div>
         <div id="final">Happy Birthday,<br>Aradhya ❤️</div>
         <p style="margin-top:22px">May your dreams be bigger than your worries,<br>and your happiness bigger than both.</p>
-        <button class="btn" onclick="fireworks()">🎆 Start the fireworks</button>
+        <button class="btn" onclick="finalCelebration()">🎆 Start the celebration</button>
         <p class="signature">Always keep being you. ❤️</p>
       </div>
     </section>
@@ -545,19 +750,65 @@ You are special, Aradhya.
 
 Happy Birthday. ❤️`;
 
+    // Music and Audio
     let audioCtx = null;
     let master = null;
     let musicOn = false;
     let musicTimer = null;
 
+    // Lightbox
+    const photos = [
+      'aradhya1.png', 'aradhya2.png', 'aradhya3.png', 'aradhya4.png', 'aradhya5.png',
+      'aradhya6.png', 'aradhya7.png', 'aradhya8.png', 'aradhya9.png'
+    ];
+    let currentPhotoIndex = 0;
+
+    function openLightbox(index) {
+      currentPhotoIndex = index;
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightboxImg');
+      img.src = photos[index];
+      document.getElementById('currentPhoto').textContent = index + 1;
+      lightbox.classList.add('active');
+      floatingEmojis();
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    function nextPhoto() {
+      currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+      document.getElementById('lightboxImg').src = photos[currentPhotoIndex];
+      document.getElementById('currentPhoto').textContent = currentPhotoIndex + 1;
+    }
+
+    function prevPhoto() {
+      currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+      document.getElementById('lightboxImg').src = photos[currentPhotoIndex];
+      document.getElementById('currentPhoto').textContent = currentPhotoIndex + 1;
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (document.getElementById('lightbox').classList.contains('active')) {
+        if (e.key === 'ArrowRight') nextPhoto();
+        if (e.key === 'ArrowLeft') prevPhoto();
+        if (e.key === 'Escape') closeLightbox();
+      }
+    });
+
+    // Navigation
     function go(id) {
       const target = document.getElementById(id);
       if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
+    // Envelope
     function openEnvelope() {
       const env = document.getElementById("env");
       env.classList.add("open");
+      floatingText("✨ Oh my! ✨", { top: '30%', left: '25%' });
+      floatingText("Exciting! 💕", { top: '60%', right: '20%' });
       setTimeout(() => {
         document.getElementById("opening").classList.add("hidden");
         document.getElementById("main").classList.remove("hidden");
@@ -566,6 +817,7 @@ Happy Birthday. ❤️`;
       }, 1100);
     }
 
+    // Typing Effect
     function typeLetter() {
       const el = document.getElementById("typed");
       let i = 0;
@@ -581,49 +833,7 @@ Happy Birthday. ❤️`;
       step();
     }
 
-    function hearts(n = 35) {
-      for (let i = 0; i < n; i++) {
-        const h = document.createElement("div");
-        h.className = "heart";
-        h.textContent = ["❤️", "💗", "💕", "✨", "🌸"][Math.floor(Math.random() * 5)];
-        h.style.left = Math.random() * 100 + "vw";
-        h.style.fontSize = (15 + Math.random() * 28) + "px";
-        h.style.animationDuration = (3 + Math.random() * 4) + "s";
-        document.body.appendChild(h);
-        setTimeout(() => h.remove(), 7500);
-      }
-    }
-
-    function makeWish() {
-      const cake = document.getElementById("cake");
-      cake.textContent = "✨🎂✨";
-      hearts(45);
-      fireworks();
-    }
-
-    function openGift() {
-      const giftText = document.getElementById("giftText");
-      giftText.classList.remove("hidden");
-      hearts(60);
-      fireworks();
-    }
-
-    function fireworks() {
-      const symbols = ["✦", "✧", "•", "❤"]; 
-      for (let i = 0; i < 90; i++) {
-        const f = document.createElement("div");
-        f.className = "firework";
-        f.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-        f.style.left = (10 + Math.random() * 80) + "vw";
-        f.style.top = (15 + Math.random() * 55) + "vh";
-        f.style.setProperty("--x", (Math.random() * 300 - 150) + "px");
-        f.style.setProperty("--y", (Math.random() * 300 - 150) + "px");
-        document.body.appendChild(f);
-        setTimeout(() => f.remove(), 1900);
-      }
-      hearts(70);
-    }
-
+    // Music
     function toggleMusic() {
       if (musicOn) {
         stopMusic();
@@ -636,7 +846,8 @@ Happy Birthday. ❤️`;
       master.connect(audioCtx.destination);
 
       musicOn = true;
-      document.getElementById("musicState").textContent = "A tiny ambient melody is playing ♪";
+      document.getElementById("musicState").textContent = "A sweet melody is playing ♪";
+      document.getElementById("musicBars").classList.remove('hidden');
 
       const notes = [261.63, 329.63, 392, 493.88, 392, 329.63, 293.66, 349.23];
       let idx = 0;
@@ -668,8 +879,107 @@ Happy Birthday. ❤️`;
       clearInterval(musicTimer);
       if (master) master.disconnect();
       document.getElementById("musicState").textContent = "Music is off";
+      document.getElementById("musicBars").classList.add('hidden');
     }
 
+    // Animations
+    function hearts(n = 35) {
+      for (let i = 0; i < n; i++) {
+        const h = document.createElement("div");
+        h.className = "heart";
+        h.textContent = ["❤️", "💗", "💕", "✨", "🌸"][Math.floor(Math.random() * 5)];
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.fontSize = (15 + Math.random() * 28) + "px";
+        h.style.animationDuration = (3 + Math.random() * 4) + "s";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 7500);
+      }
+    }
+
+    function confetti() {
+      for (let i = 0; i < 60; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.textContent = ["🎉", "🎊", "✨", "💫", "⭐"][Math.floor(Math.random() * 5)];
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.top = "-30px";
+        c.style.animationDuration = (2 + Math.random() * 2) + "s";
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4000);
+      }
+    }
+
+    function floatingText(text, position = {}) {
+      const el = document.createElement("div");
+      el.className = "floating-text";
+      el.textContent = text;
+      el.style.left = position.left || "50%";
+      el.style.top = position.top || "50%";
+      el.style.color = ["#ff6eaa", "#ffb6d3", "#d1bfff"][Math.floor(Math.random() * 3)];
+      if (position.right) el.style.right = position.right;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }
+
+    function floatingEmojis() {
+      const emojis = ["🎂", "💕", "✨", "🎁", "⭐"];
+      for (let i = 0; i < 3; i++) {
+        const el = document.createElement("div");
+        el.className = "floating-emoji";
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = (Math.random() * 80 + 10) + "vw";
+        el.style.top = (Math.random() * 30 + 20) + "vh";
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 3000);
+      }
+    }
+
+    function makeWish() {
+      const cake = document.getElementById("cake");
+      cake.textContent = "✨🎂✨";
+      floatingText("Your wish is safe with me 💫", { top: '50%', left: '50%' });
+      hearts(45);
+      confetti();
+      setTimeout(() => { cake.textContent = "🎂"; }, 2000);
+    }
+
+    function openGift() {
+      const giftText = document.getElementById("giftText");
+      giftText.classList.remove("hidden");
+      floatingText("This is for you! 💝", { top: '40%', left: '50%' });
+      hearts(60);
+      confetti();
+      setTimeout(() => fireworks(), 300);
+    }
+
+    function fireworks() {
+      const symbols = ["✦", "✧", "•", "❤"];
+      for (let i = 0; i < 90; i++) {
+        const f = document.createElement("div");
+        f.className = "firework";
+        f.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        f.style.left = (10 + Math.random() * 80) + "vw";
+        f.style.top = (15 + Math.random() * 55) + "vh";
+        f.style.setProperty("--x", (Math.random() * 300 - 150) + "px");
+        f.style.setProperty("--y", (Math.random() * 300 - 150) + "px");
+        document.body.appendChild(f);
+        setTimeout(() => f.remove(), 1900);
+      }
+      hearts(70);
+    }
+
+    function finalCelebration() {
+      fireworks();
+      confetti();
+      hearts(100);
+      floatingText("Happy Birthday! 🎉", { top: '25%', left: '50%' });
+      floatingText("You are amazing! ✨", { top: '75%', right: '15%' });
+      setTimeout(() => {
+        floatingText("Enjoy every moment! 💕", { top: '50%', left: '10%' });
+      }, 500);
+    }
+
+    // Countdown
     function countdown() {
       let n = 3;
       const el = document.getElementById("countdown");
@@ -690,6 +1000,7 @@ Happy Birthday. ❤️`;
 
     countdown();
 
+    // Starfield
     const c = document.getElementById("stars");
     const ctx = c.getContext("2d");
     let stars = [];
@@ -722,6 +1033,11 @@ Happy Birthday. ❤️`;
     addEventListener("resize", resize);
     resize();
     drawStars();
+
+    // Close lightbox on background click
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target.id === 'lightbox') closeLightbox();
+    });
   </script>
 </body>
 </html>
